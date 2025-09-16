@@ -9,11 +9,12 @@ const Header = () => {
     <>
   <section>
     <div className={styles.header_container}>
-        <div>
+        <div className={styles.logo_container}>
             {/*logo */}
             <a href='/'><img src="https://pngimg.com/uploads/amazon/amazon_PNG11.png" alt="Amazon logo" /></a>
-        </div>
+        
         {/*delivery */}
+        <div className={styles.delivery}>
         <span>
             <SlLocationPin/>
             </span>
@@ -21,20 +22,21 @@ const Header = () => {
                 <p>Delivered to</p>
                 <span>Ethiopia</span>
             </div>
-        
-        <div>
+        </div>
+        </div>
+        <div className={styles.search}>
             {/*search */}
             <select name="" id=""><option value="">All</option>
             </select>
             <input type="text" id='' placeholder='search product'/>
-            <BiSearch/>
+            <BiSearch size={25}/>
             {/*search icon */}
 
         </div>
         {/*right side */}
         <div>
             <div>
-                <img src="https://i.ebayimg.com/images/g/K4IAAMXQ8ABRjsx2/s-l1600.webp" alt="" />
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/71/Flag_of_the_United_States_%28Web_Colors%29.svg/330px-Flag_of_the_United_States_%28Web_Colors%29.svg.png" alt="" />
                 <section>
                     <option value="">EN</option>
                 </section>
