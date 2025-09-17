@@ -1,9 +1,10 @@
 import React from 'react'
-import Header from './Component/Header/Header'
+import Landing from './Pages/Landing/Landing'
+
 
 const App = () => {
   return (
-    <Header/>
+   <Landing/>
   )
 }
 
