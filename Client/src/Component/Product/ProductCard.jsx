@@ -1,19 +1,28 @@
-import React, { useState } from "react";
+import React, { useContext } from "react";
 import Rating from "@mui/material/Rating";
 import CurrencyFormat from "../CurrencyFormat/CurrencyFormat";
 import classes from "./product.module.css";
 import { Link } from "react-router-dom";
+import { DataContext } from "../DataProvider/DataProvider";
+import { Type } from "../../utils/action.type";
 
 function ProductCard({ product, flex, renderDesc, renderAdd }) {
   const { image, title, id, rating, price, description } = product;
 
-  // Local state for this product's amount in cart
-  const [amount, setAmount] = useState(0);
+  const [state, dispatch] = useContext(DataContext);
 
   const addToCart = () => {
-    setAmount(prev => prev + 1);
-    // You can also pass this info to a parent via props if needed
-    // e.g., props.onAddToCart(product)
+    dispatch({
+      type: Type.ADD_TO_BASKET,
+      item: {
+        image,
+        title,
+        id,
+        rating,
+        price,
+        description,
+      },
+    });
   };
 
   return (
@@ -23,13 +32,14 @@ function ProductCard({ product, flex, renderDesc, renderAdd }) {
       }`}
     >
       <Link to={`/products/${id}`}>
-        <img src={image} alt={title} className={classes.img_container} />
+        <img src={image} alt="" className={classes.img_container} />
       </Link>
       <div>
         <h3>{title}</h3>
         {renderDesc && <div style={{ maxWidth: "750px" }}>{description}</div>}
         <div className={classes.rating}>
           <Rating value={rating?.rate} precision={0.1} />
+
           <small>{rating?.count}</small>
         </div>
         <div>
@@ -37,7 +47,7 @@ function ProductCard({ product, flex, renderDesc, renderAdd }) {
         </div>
         {renderAdd && (
           <button className={classes.button} onClick={addToCart}>
-            Add to Cart {amount > 0 && `(${amount})`}
+            add to cart
           </button>
         )}
       </div>

@@ -1,10 +1,9 @@
 import React from 'react'
-import Landing from './Pages/Landing/Landing'
-
+import Router from './Router'
 
 const App = () => {
   return (
-   <Landing/>
+   <Router/>
   )
 }
 

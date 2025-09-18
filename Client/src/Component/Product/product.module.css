@@ -22,7 +22,7 @@
   font-weight: 700;
   border: none;
   cursor: pointer;
-  background-color: #ed650b;
+  background-color: var(--primary-color);
   width: 100%;
   margin: 10px 0;
   border-radius: 30px;
