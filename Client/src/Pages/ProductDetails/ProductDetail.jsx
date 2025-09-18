@@ -18,7 +18,7 @@ const ProductDetail = () => {
           const { data } = await axios.get(
               `https://fakestoreapi.com/products/${productId}`
             );
-            // console.log(data)
+
             setDetail(data)
             setIsLoading(false)
           
@@ -37,7 +37,7 @@ const ProductDetail = () => {
     <LayOut>
       {
         isLoading ? <Loader/> : <div>
-        {detail && <ProductCard product={detail} flex={true} description ={true}/>}
+        {detail && <ProductCard product={detail} flex={true} renderDesc={true}/>}
       </div>
       }
       

@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import { DataContext } from "../DataProvider/DataProvider";
 import { Type } from "../../utils/action.type";
 
-function ProductCard({ product, flex, renderDesc, renderAdd }) {
+const ProductCard = ({ product, flex, renderDesc, renderAdd }) => {
   const { image, title, id, rating, price, description } = product;
 
   const [state, dispatch] = useContext(DataContext);

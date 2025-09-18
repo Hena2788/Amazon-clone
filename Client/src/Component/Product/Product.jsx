@@ -4,7 +4,7 @@ import ProductCard from "./ProductCard";
 import classes from "./product.module.css";
 import Loader from "../Loader/Loader";
 
-function Product() {
+const Product = () => {
   const [products, setProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(true); // start with loading = true
 
@@ -28,11 +28,12 @@ function Product() {
       ) : (
         <section className={classes.products_container}>
           {products.map((singleProduct) => (
-            <ProductCard
-              renderAdd={true}
-              product={singleProduct}
-              key={singleProduct.id}
-            />
+           <ProductCard
+           renderAdd={true}
+           renderDesc={true}  // Add this line
+           product={singleProduct}
+           key={singleProduct.id}
+         />
           ))}
         </section>
       )}
