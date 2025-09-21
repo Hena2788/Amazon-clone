@@ -1,10 +1,11 @@
-import { useParams } from "react-router-dom";
+import { data, useParams } from "react-router-dom";
 import LayOut from "../../Component/Layout/Layout";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import ProductCard from "../../Component/Product/ProductCard";
 import Loader from "../../Component/Loader/Loader";
 import classes from "./result.module.css";
+import { producturl } from "../../Api/endPoints";
 
 const Results = () => {
   const [results, setResults] = useState([]);
@@ -17,7 +18,7 @@ const Results = () => {
     const fetchResults = async () => {
       try {
         const { data } = await axios.get(
-          `https://fakestoreapi.com/products/category/${categoryType}`
+          `${producturl}/products/category/${categoryType}`
         );
         setResults(data);
         setIsLoading(false);

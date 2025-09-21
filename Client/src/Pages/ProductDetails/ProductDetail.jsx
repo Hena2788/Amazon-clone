@@ -5,20 +5,19 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import ProductCard from '../../Component/Product/ProductCard';
 import Loader from '../../Component/Loader/Loader';
+import { producturl } from '../../Api/endPoints';
 
 const ProductDetail = () => {
   const [detail, setDetail] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
       const { productId } = useParams();
-  
       useEffect(()=>{
         setIsLoading(true)
        const fetchDetail = async () => {
         try {
           const { data } = await axios.get(
-              `https://fakestoreapi.com/products/${productId}`
+              `${producturl}/products/${productId}`
             );
-
             setDetail(data)
             setIsLoading(false)
           
