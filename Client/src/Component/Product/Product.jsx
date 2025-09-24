@@ -31,7 +31,7 @@ const Product = () => {
           {products.map((singleProduct) => (
            <ProductCard
            renderAdd={true}
-           renderDesc={true}  // Add this line
+           renderDesc={false}  // Add this line
            product={singleProduct}
            key={singleProduct.id}
          />

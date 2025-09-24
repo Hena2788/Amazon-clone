@@ -36,7 +36,7 @@ const ProductDetail = () => {
     <LayOut>
       {
         isLoading ? <Loader/> : <div>
-        {detail && <ProductCard product={detail} flex={true} renderDesc={true}/>}
+        {detail && <ProductCard product={detail} flex={true} renderDesc={true}  renderAdd={true}/>}
       </div>
       }
       
