@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import classes from "./Signup.module.css";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { auth } from '../../utils/firebase';
 import {
     createUserWithEmailAndPassword,
@@ -8,6 +8,7 @@ import {
   } from "firebase/auth";
   import { DataContext } from '../../Component/DataProvider/DataProvider';
   import { Type } from "../../utils/action.type";
+  import {ClipLoader} from 'react-spinners'
 const Auth = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -17,33 +18,51 @@ const Auth = () => {
     signUP: false,
   });
   const [{ user }, dispatch] = useContext(DataContext);
+  const navigate = useNavigate();
   console.log(user)
 
   const authHandler = async (e) => {
-    e.preventDefault();
-    console.log(e.target.name);
-     if (e.target.name == "signin") {
-        signInWithEmailAndPassword(auth, email, password).then((userInfo)=>{
-            console.log(userInfo);
-            dispatch({
-                type: Type.SET_USER,
-                user: userInfo.user,
-              });
-        }).catch((err)=>{
-            console.log(err);
-        })
-     }else{
-        createUserWithEmailAndPassword(auth, email, password).then((userInfo)=>{
-            console.log(userInfo);
-            dispatch({
-                type: Type.SET_USER,
-                user: userInfo.user,
-              });
-        }).catch((err)=>{
-            console.log(err);
-        })
-     }
+  e.preventDefault();
+  console.log(e.target.name);
+  
+  if (e.target.name == "signin") {
+    setLoading({ ...loading, signIn: true });
+    setError(""); // Clear previous errors
+    
+    signInWithEmailAndPassword(auth, email, password).then((userInfo) => {
+      console.log(userInfo);
+      dispatch({
+        type: Type.SET_USER,
+        user: userInfo.user,
+      });
+      setLoading({ ...loading, signIn: false });
+      navigate("/");
+    }).catch((err) => {
+      console.log(err.message);
+      setError(err.message);
+      setLoading({ ...loading, signIn: false }); // Reset loading on error
+    })
+    
+  } else {
+    setLoading({ ...loading, signUP: true });
+    setError(""); 
+    
+    createUserWithEmailAndPassword(auth, email, password).then((userInfo) => {
+      console.log(userInfo);
+      dispatch({
+        type: Type.SET_USER,
+        user: userInfo.user,
+      });
+      setLoading({ ...loading, signUP: false });
+      navigate("/");
+    }).catch((err) => {
+      console.log(err.message);
+      setError(err.message);
+      setLoading({ ...loading, signUP: false }); // Reset loading on error
+    })
   }
+}
+
   return (
     <section className={classes.login}>
       <Link to={"/"}>
@@ -78,7 +97,12 @@ const Auth = () => {
             onClick={authHandler}
             name="signin"
             className={classes.login_signInButton}
-          >Sign In</button>
+          >
+           {loading.signIn ? (
+              <ClipLoader color="#000" size={15}></ClipLoader>
+            ) : (
+              " Sign In"
+            )}</button>
     </form>
     <p>
           By signing-in you agree to the AMAZON FAKE CLONE Conditions of Use &
@@ -90,7 +114,14 @@ const Auth = () => {
           name="signup"
           onClick={authHandler}
           className={classes.login_registerButton}
-        >Create your account</button>
+        >{loading.signUP ? (
+            <ClipLoader color="#000" size={15}></ClipLoader>
+          ) : (
+            "Create your Amazon Account"
+          )}</button>
+        {error && (
+          <small style={{ paddingTop: "5px", color: "red" }}>{error}</small>
+        )}
       </div>
     </section>
   )

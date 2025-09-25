@@ -5,9 +5,10 @@ import { SlLocationPin } from "react-icons/sl";
 import { BiSearch, BiCart } from "react-icons/bi";
 import LowerHeader from "./LowerHeader";
 import { DataContext } from "../DataProvider/DataProvider";
+import { auth } from "../../utils/firebase";
 
 const Header = () => {
-  const [{basket }] = useContext(DataContext);
+  const [{user, basket }] = useContext(DataContext);
   const totalItem = basket?.reduce((amount, item) => {
     return item.amount + amount;
   }, 0);
@@ -52,10 +53,21 @@ const Header = () => {
                 <option value="">EN</option>
               </select>
             </Link>
-            <Link to= "/auth">
+            <Link to={!user && "/auth"}>
               <div>
-                <p>Sign in</p>
-                <span>Account & Lists</span>
+                {user ? (
+                  <>
+                    <p>Hello {user?.email?.split("@")[0]}</p>
+                    <span onClick={() => (user ? auth.signOut() : null)}>
+                      Sign Out
+                    </span>
+                  </>
+                ) : (
+                  <>
+                    <p>Hello, sign In</p>
+                    <span>Account & Lists</span>
+                  </>
+                )}
             </div>
             </Link>
             <Link to="/orders">
