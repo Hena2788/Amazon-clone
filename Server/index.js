@@ -15,10 +15,10 @@ app.get('/', (req, res) => {
 })
 
 app.post('/payment/create', async (req, res) => {
-    const amount = req.query.amount;
-    if (amount > 0) {
+    const total = req.query.total;
+    if (total > 0) {
         const paymentIntent = await stripe.paymentIntents.create({
-            amount: amount,
+            amount: total,
             currency: "usd",
         });
         console.log(paymentIntent.client_secret);
@@ -35,7 +35,7 @@ app.post('/payment/create', async (req, res) => {
 
 app.listen(5000, (err) => {
     if (!err) {
-        console.log('app running at http://localhost:3000')
+        console.log('app running at http://localhost:5000')
     } else {
         throw err
     }
