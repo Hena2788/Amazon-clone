@@ -1,42 +1,52 @@
-const express = require('express');
-const cors = require('cors');
-const dotenv = require('dotenv');
-dotenv.config();
-const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
+import express from 'express';
+import cors from 'cors';
+import dotenv from 'dotenv';
+import Stripe from 'stripe';
 
-app = express();
-app.use(cors({ origin: true }))
+dotenv.config();
+
+const app = express();
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+
+app.use(cors({ origin: true }));
 app.use(express.json());
 
 app.get('/', (req, res) => {
     res.status(200).json({
         response: 'success'
-    })
-})
+    });
+});
 
 app.post('/payment/create', async (req, res) => {
     const total = req.query.total;
     if (total > 0) {
-        const paymentIntent = await stripe.paymentIntents.create({
-            amount: total,
-            currency: "usd",
+        try {
+            const paymentIntent = await stripe.paymentIntents.create({
+                amount: parseInt(total),
+                currency: "usd",
+            });
+            console.log(paymentIntent.client_secret);
+            res.status(200).json({ 
+                client_secret: paymentIntent.client_secret 
+            });
+        } catch (error) {
+            console.error('Stripe error:', error);
+            res.status(500).json({ 
+                error: 'Payment processing failed' 
+            });
+        }
+    } else {
+        res.status(400).json({
+            message: "Amount should be greater than 0"
         });
-        console.log(paymentIntent.client_secret);
-        res.status(200).json({ client_secret: paymentIntent.client_secret });
-    } else {
-        res.status(401).json({
-            message: "amount should be greater than 0"
-        })
     }
-})
+});
 
-
-
-
-app.listen(5000, (err) => {
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, '0.0.0.0', (err) => {
     if (!err) {
-        console.log('app running at http://localhost:5000')
+        console.log(`Server running on port ${PORT}`);
     } else {
-        throw err
+        console.error('Server error:', err);
     }
-})
+});
