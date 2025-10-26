@@ -1,0 +1,55 @@
+.container {
+    background-color: #efeeee;
+    padding: 30px;
+    min-height: 100vh; /* Ensure full height */
+  }
+  
+  .orders_container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px; /* Optional: for better appearance */
+  }
+  
+  .orders_container h2 {
+    border-bottom: 2px solid var(--primary-shade);
+    padding: 20px;
+    margin-bottom: 20px; /* Add space below heading */
+  }
+  
+  .orders_container p {
+    padding: 12px;
+    margin: 0; /* Remove default margins */
+  }
+  
+  .orders_container img {
+    width: 100px !important; /* Fixed typo */
+  }
+  
+  .orders_container div {
+    height: auto !important; /* Fixed typo */
+  }
+  
+  /* ADD THESE NEW STYLES FOR ORDER ITEMS */
+  .order_item {
+    margin-bottom: 30px; /* Space between orders */
+    padding: 20px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    background-color: #fafafa;
+  }
+  
+  .order_products {
+    margin-top: 15px;
+  }
+  
+  .order_products h4 {
+    margin-bottom: 10px;
+    color: #333;
+  }
+  
+  /* Ensure ProductCard components don't overlap */
+  .order_item .flex {
+    display: flex;
+    flex-direction: column;
+    gap: 10px; /* Space between product cards */
+  }

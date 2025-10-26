@@ -33,6 +33,29 @@ const Payment = () => {
   const element = useElements();
   const navigate = useNavigate();
 
+  // Card styling for Stripe CardElement
+  const cardStyle = {
+    style: {
+      base: {
+        color: "#32325d",
+        fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
+        fontSmoothing: "antialiased",
+        fontSize: "16px",
+        "::placeholder": {
+          color: "#aab7c4",
+        },
+        padding: "12px 14px",
+        border: "1px solid #e1e8ed",
+        borderRadius: "8px",
+        backgroundColor: "white",
+      },
+      invalid: {
+        color: "#fa755a",
+        iconColor: "#fa755a",
+      },
+    },
+  };
+
   const handleChange = (e) => {
     e?.error?.message ? setCardError(e.error.message) : setCardError("");
   };
@@ -121,14 +144,26 @@ const Payment = () => {
                   <small style={{ color: "red" }}>{cardError}</small>
                 )}
                 {/* Payment card */}
-                <CardElement onChange={handleChange}/>
+                <CardElement 
+                  onChange={handleChange}
+                  options={cardStyle}
+                />
+                
+                {/* Security notice */}
+                <div className={Classes.security_notice}>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z"/>
+                  </svg>
+                  <span>Your payment details are secured with 256-bit SSL encryption</span>
+                </div>
+
                 {/* price*/}
                 <div className={Classes.payment_price}>
                   <span style={{ display: "flex", gap: "5px" }}>
                     <p>Total order |</p>
                     <CurrencyFormat amount={total} />
                   </span>
-                  <button type = "submit">
+                  <button type="submit" disabled={processing}>
                   {processing ? (
                       <div className={Classes.loading}>
                         <ClipLoader size={12} color="gray" /> <p>Please wait</p>{" "}
