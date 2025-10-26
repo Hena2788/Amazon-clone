@@ -19,6 +19,8 @@ const Auth = () => {
   });
   const [{ user }, dispatch] = useContext(DataContext);
   const navigate = useNavigate();
+  const navStatedata = useLocation()
+  //console.log(navStatedata);
   console.log(user)
 
   const authHandler = async (e) => {
@@ -36,7 +38,7 @@ const Auth = () => {
         user: userInfo.user,
       });
       setLoading({ ...loading, signIn: false });
-      navigate("/");
+      navigate(navStatedata?.state?.redirect||"/");
     }).catch((err) => {
       console.log(err.message);
       setError(err.message);
@@ -54,7 +56,7 @@ const Auth = () => {
         user: userInfo.user,
       });
       setLoading({ ...loading, signUP: false });
-      navigate("/");
+      navigate(navStatedata?.state?.redirect||"/");
     }).catch((err) => {
       console.log(err.message);
       setError(err.message);
@@ -73,6 +75,20 @@ const Auth = () => {
       </Link>
       <div className={classes.login_container}>
     <h1>Sign In</h1>
+    {
+      navStatedata?.state?.msg && (
+        <small
+           style={{
+            paddding: "5px",
+            textAlign: "center",
+            color: "red",
+            fontWeight: "bold",
+           }}
+           >
+            {navStatedata?.state?.msg}
+           </small>
+      )
+    }
     <form action ="">
         <div>
             <label htmlFor='email'>Email</label>
